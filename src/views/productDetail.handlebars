@@ -1,0 +1,79 @@
+<style>
+  .detail-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    max-width: 600px;
+  }
+  .detail-card h2 {
+    margin-bottom: 0.5rem;
+  }
+  .detail-card .price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin: 0.5rem 0;
+  }
+  .detail-card dl {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 0.3rem 0.75rem;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+  .detail-card dt {
+    font-weight: 600;
+    color: #555;
+  }
+  .add-to-cart {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-top: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .add-to-cart input {
+    padding: 0.4rem 0.6rem;
+    width: 80px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+</style>
+
+<a href="/products" style="font-size:.9rem;color:#1a1a2e;">&larr; Back to
+  products</a>
+
+<div class="detail-card" style="margin-top:1rem">
+  <h2>{{product.title}}</h2>
+  <p style="color:#555">{{product.description}}</p>
+  <div class="price">${{product.price}}</div>
+
+  <dl>
+    <dt>Category</dt><dd>{{product.category}}</dd>
+    <dt>Code</dt><dd>{{product.code}}</dd>
+    <dt>Stock</dt><dd>{{product.stock}}</dd>
+    <dt>Status</dt><dd>{{#if
+        product.status
+      }}Available{{else}}Unavailable{{/if}}</dd>
+  </dl>
+
+  <div class="add-to-cart">
+    <input type="text" id="cart-id-input" placeholder="Cart ID" />
+    <button class="btn btn-primary" onclick="addToCart('{{product._id}}')">Add
+      to cart</button>
+    <span id="cart-msg" style="font-size:.85rem;color:green"></span>
+  </div>
+</div>
+
+<script>
+  async function addToCart(productId) { const cartId =
+  document.getElementById('cart-id-input').value.trim(); const msg =
+  document.getElementById('cart-msg'); if (!cartId) { msg.style.color = 'red';
+  msg.textContent = 'Enter a cart ID'; return; } try { const res = await
+  fetch(`/api/carts/${cartId}/products/${productId}`, { method: 'POST' }); const
+  data = await res.json(); if (data.status === 'success') { msg.style.color =
+  'green'; msg.textContent = 'Added to cart!'; } else { msg.style.color = 'red';
+  msg.textContent = data.message; } } catch { msg.style.color = 'red';
+  msg.textContent = 'Request failed'; } }
+</script>

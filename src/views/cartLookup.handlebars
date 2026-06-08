@@ -1,0 +1,61 @@
+<style>
+  .lookup-card {
+    max-width: 560px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  .lookup-card h2 {
+    margin-bottom: 0.5rem;
+  }
+  .lookup-card p {
+    color: #666;
+    font-size: 0.92rem;
+    margin-bottom: 1rem;
+  }
+  .lookup-form {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .lookup-form input {
+    flex: 1;
+    min-width: 280px;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid #cfd3da;
+    border-radius: 6px;
+  }
+  #error-msg {
+    color: #c0392b;
+    font-size: 0.9rem;
+    margin-top: 0.75rem;
+  }
+</style>
+
+<div class="lookup-card">
+  <h2>Find Your Cart</h2>
+  <p>Paste your cart ID to open the cart view with all products and quantities.</p>
+
+  <form class="lookup-form" id="cart-lookup-form">
+    <input
+      id="cart-id"
+      type="text"
+      placeholder="e.g. 6a26fac4aecae3636a268554"
+      required
+    />
+    <button class="btn btn-primary" type="submit">Open Cart</button>
+  </form>
+
+  <div id="error-msg"></div>
+</div>
+
+<script>
+  const lookupForm = document.getElementById('cart-lookup-form'); const
+  cartIdInput = document.getElementById('cart-id'); const errorMsg =
+  document.getElementById('error-msg'); lookupForm.addEventListener('submit',
+  async (event) => { event.preventDefault(); const cartId =
+  cartIdInput.value.trim(); if (!cartId) { errorMsg.textContent = 'Please enter
+  a cart ID.'; return; } errorMsg.textContent = ''; window.location.href =
+  `/carts/${cartId}`; });
+</script>

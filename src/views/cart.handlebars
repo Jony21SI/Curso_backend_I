@@ -1,0 +1,66 @@
+<style>
+  .cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  }
+  .cart-table th,
+  .cart-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+  .cart-table th {
+    background: #1a1a2e;
+    color: #fff;
+    font-size: 0.85rem;
+  }
+  .cart-table td {
+    font-size: 0.9rem;
+  }
+  .total-row {
+    margin-top: 1rem;
+    text-align: right;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+</style>
+
+<h2 style="margin-bottom:1rem">Cart</h2>
+<p style="color:#777;font-size:.85rem;margin-bottom:1rem">ID: {{cart._id}}</p>
+
+{{#if cart.products.length}}
+  <table class="cart-table">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Category</th>
+        <th>Unit Price</th>
+        <th>Qty</th>
+        <th>Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each cart.products}}
+        <tr>
+          <td>
+            {{#if product}}
+              <a href="/products/{{product._id}}">{{product.title}}</a>
+            {{else}}
+              <em style="color:#aaa">Deleted product</em>
+            {{/if}}
+          </td>
+          <td>{{#if product}}{{product.category}}{{/if}}</td>
+          <td>{{#if product}}${{product.price}}{{/if}}</td>
+          <td>{{quantity}}</td>
+          <td>{{#if product}}${{multiply product.price quantity}}{{/if}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+{{else}}
+  <p>The cart is empty.</p>
+{{/if}}
